@@ -1,24 +1,28 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<c:set var="pageTitle" value="ARTICLE LIST"></c:set>
+<%@ include file="../common/head.jspf"%>
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Login</title>
-</head>
-<body>
-		<form method="POST" action="doLogin"
-		onsubmit="LoginForm__submit(this); return false;">
-		<div>
-			로그인 아이디 : <input autocomplete="off" type="text"
-				placeholder="아이디를 입력해주세요" name="loginId" />
-		</div>
-		<div>
-			로그인 비밀번호 : <input autocomplete="off" type="text"
-				placeholder="비밀번호를 입력해주세요" name="loginPw" />
-		</div>
-		<button type="submit">로그인</button>
-	</form>
-</body>
-</html>
+
+<section class="mt-8 text-xl px-4">
+	<div class="mx-auto">
+		<table class="table-box-1" border="1">
+			<tbody>
+				<tr>
+					<th>아이디</th>
+					<td>${article.id }</td>
+				</tr>
+				<tr>
+					<th>비밀번호</th>
+					<td>${article.regDate }</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</section>
+<div class="btns">
+	<button class="hover:underline" type="button" onclick="history.back();">뒤로가기</button>
+</div>
+
+
+<%@ include file="../common/foot.jspf"%>

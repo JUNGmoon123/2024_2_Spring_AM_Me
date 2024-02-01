@@ -37,8 +37,7 @@ public class UsrMemberController {
 		return ResultData.from("S-1", Ut.f("로그아웃 되었습니다"));
 	}
 
-	@RequestMapping("/usr/member/doLogin")
-	@ResponseBody
+	@RequestMapping("/usr/member/login")
 	public ResultData<Member> doLogin(HttpSession httpSession, String loginId, String loginPw) {
 
 		boolean isLogined = false;
