@@ -120,7 +120,7 @@ public class UsrArticleController {
 	// 로그인 체크 -> 유무 체크 -> 권한 체크 -> 삭제
 	@RequestMapping("/usr/article/doDelete")
 	@ResponseBody
-	public ResultData<Integer> doDelete(HttpSession httpSession, int id) {
+	public String doDelete(HttpSession httpSession, int id) {
 
 		boolean isLogined = false;
 		int loginedMemberId = 0;
@@ -129,14 +129,14 @@ public class UsrArticleController {
 			isLogined = true;
 			loginedMemberId = (int) httpSession.getAttribute("loginedMemberId");
 		}
-
+		//JS
 		if (isLogined == false) {
-			return ResultData.from("F-A", "로그인 후 이용해주세요");
+			return Ut.jsReplace("F-A", "로그인 후 이용해주세요", "../member/login");
 		}
 		Article article = articleService.getArticle(id);
-
+		//JS
 		if (article == null) {
-			return ResultData.from("F-1", Ut.f("%d번 글은 존재하지 않습니다", id), "id", id);
+			return Ut.jsHistoryBack("F-1", Ut.f("%d번 글은 존재하지 않습니다", id));
 		}
 
 		ResultData loginedMemberCanDeleteRd = articleService.userCanDelete(loginedMemberId, article);
@@ -144,8 +144,10 @@ public class UsrArticleController {
 		if (loginedMemberCanDeleteRd.isSuccess()) {
 			articleService.deleteArticle(id);
 		}
-
-		return ResultData.from(loginedMemberCanDeleteRd.getResultCode(), loginedMemberCanDeleteRd.getMsg(), "id", id);
+		//로그인하지 않았거나 권한이 없는데 이상한 방법으로 삭제시도시 Ut에 팝업설정된게 나오고
+		//list로 이동시킨다.
+		return Ut.jsReplace(loginedMemberCanDeleteRd.getResultCode(), loginedMemberCanDeleteRd.getMsg(),
+				"../article/list");
 	}
 
 }

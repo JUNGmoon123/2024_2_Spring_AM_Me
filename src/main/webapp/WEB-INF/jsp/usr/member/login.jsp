@@ -10,13 +10,14 @@
 			<tbody>
 				<tr>
 					<th>아이디</th>
-					<td>${article.id }</td>
+					<td><input type="text" placeholder="아이디" />${article.id }</td>
 				</tr>
 				<tr>
 					<th>비밀번호</th>
-					<td>${article.regDate }</td>
+					<td><input type="text" placeholder="비밀번호" />${article.regDate }</td>
 				</tr>
 			</tbody>
+				 	<input type="submit" id="btn" value="로그인">
 		</table>
 	</div>
 </section>
