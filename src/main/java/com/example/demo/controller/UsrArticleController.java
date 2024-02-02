@@ -74,6 +74,17 @@ public class UsrArticleController {
 
 		return ResultData.newData(writeArticleRd, "article", article);
 	}
+	@RequestMapping("/usr/article/modify")
+	public String showmodify(HttpServletRequest req, Model model, int id) {
+
+		Rq rq = (Rq) req.getAttribute("rq");
+
+		Article article = articleService.getForPrintArticle(rq.getLoginedMemberId(), id);
+
+		model.addAttribute("article", article);
+
+		return "/usr/article/modify";
+	}
 
 	// 로그인 체크 -> 유무 체크 -> 권한 체크 -> 수정
 	@RequestMapping("/usr/article/doModify")

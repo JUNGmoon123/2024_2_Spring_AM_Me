@@ -8,18 +8,35 @@
 		<table class="table-box-1" border="1">
 			<tbody>
 				<tr>
+					<th>번호</th>
+					<td>${article.id }</td>
+				</tr>
+				<tr>
+					<th>작성날짜</th>
+					<td>${article.regDate }</td>
+				</tr>
+				<tr>
+					<th>수정날짜</th>
+					<td>${article.updateDate }</td>
+				</tr>
+				<tr>
+					<th>작성자</th>
+					<td>${article.extra__writer }</td>
+				</tr>
+				<tr>
 					<th>제목</th>
 					<td>${article.title }</td>
 				</tr>
 				<tr>
-					<th>기존내용</th>
+					<th>내용</th>
 					<td>${article.body }</td>
 				</tr>
 			</tbody>
 		</table>
+		<div class="btns">
+			<button class="hover:underline" type="button" onclick="history.back();">뒤로가기</button>
+				<a href="../article/modify?id=${article.id }">수정</a>
+		</div>
 	</div>
 </section>
-<div class="btns">
-	<button class="hover:underline" type="button" onclick="history.back();">뒤로가기</button>
-</div>
 <%@ include file="../common/foot.jspf"%>
