@@ -18,6 +18,13 @@ public class UsrMemberController {
 	@Autowired
 	private MemberService memberService;
 
+	@RequestMapping("/usr/member/logout")
+	public String showLogout(HttpSession httpSession) {
+
+		return "usr/member/logout";
+	}
+	
+	
 	@RequestMapping("/usr/member/doLogout")
 	@ResponseBody
 	public ResultData doLogout(HttpSession httpSession) {
