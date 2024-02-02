@@ -3,21 +3,28 @@ package com.example.demo.interceptor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import com.example.demo.util.Ut;
 import com.example.demo.vo.Rq;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-//기존에 controller로 바로 들어가던 요청사항을 여기로 한번 빼앗아서 처리?모음? 하게 하고 Controller로 넘겨준다.
 @Component
-public class BeforeActionInterceptor implements HandlerInterceptor {
+public class NeedLoginInterceptor implements HandlerInterceptor {
 
 	@Override
 	public boolean preHandle(HttpServletRequest req, HttpServletResponse resp, Object handler) throws Exception {
-		//여기서 new를 해주고 set을 설정해주면 기존에 Rq를 쓰던곳에서는 (Rq) req.getAttribute("rq");쓰이게된다
-		Rq rq = new Rq(req, resp);
+		Rq rq = (Rq) req.getAttribute("rq");
 
-		req.setAttribute("rq", rq);
+		if (!rq.isLogined()) {
+			System.out.println("==============로그인 하고 써============");
+//			resp.getWriter().append("<script>~~~")
+
+			rq.printHistoryBack("로그인 하고 써라");
+
+			return false;
+
+		}
 
 		return HandlerInterceptor.super.preHandle(req, resp, handler);
 	}

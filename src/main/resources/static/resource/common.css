@@ -52,3 +52,17 @@ header>div>ul>li {
 	padding: 10px;
 	text-align: center;
 }
+
+.login-box>tbody>tr>td>input {
+	border: 1px solid black;
+	padding-left: 10px;
+}
+
+.login-box>tbody>tr:nth-child(3)>td>input {
+	padding-left: 0;
+}
+
+section>div>table>div {
+	display: inline-block;
+	text-align: center;
+}
