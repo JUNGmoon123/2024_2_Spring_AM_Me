@@ -30,7 +30,6 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/detail")
 	public String showDetail(HttpServletRequest req, Model model, int id) {
-		//(Rq)라고 앞에 cast해주지않으면 cannot convert from Object to Rq 라고 에러가 나온다.
 		Rq rq = (Rq) req.getAttribute("rq");
 
 		Article article = articleService.getForPrintArticle(rq.getLoginedMemberId(), id);
@@ -55,10 +54,6 @@ public class UsrArticleController {
 
 		Rq rq = (Rq) req.getAttribute("rq");
 
-		if (rq.isLogined() == false) {
-			return ResultData.from("F-A", "로그인 후 이용해주세요");
-		}
-
 		if (Ut.isNullOrEmpty(title)) {
 			return ResultData.from("F-1", "제목을 입력해주세요");
 		}
@@ -74,27 +69,12 @@ public class UsrArticleController {
 
 		return ResultData.newData(writeArticleRd, "article", article);
 	}
-	@RequestMapping("/usr/article/modify")
-	public String showmodify(HttpServletRequest req, Model model, int id) {
-
-		Rq rq = (Rq) req.getAttribute("rq");
-
-		Article article = articleService.getForPrintArticle(rq.getLoginedMemberId(), id);
-
-		model.addAttribute("article", article);
-
-		return "/usr/article/modify";
-	}
 
 	// 로그인 체크 -> 유무 체크 -> 권한 체크 -> 수정
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody
 	public ResultData<Integer> doModify(HttpServletRequest req, int id, String title, String body) {
 		Rq rq = (Rq) req.getAttribute("rq");
-
-		if (rq.isLogined() == false) {
-			return ResultData.from("F-A", "로그인 후 이용해주세요");
-		}
 
 		Article article = articleService.getArticle(id);
 
@@ -117,9 +97,6 @@ public class UsrArticleController {
 	public String doDelete(HttpServletRequest req, int id) {
 		Rq rq = (Rq) req.getAttribute("rq");
 
-		if (rq.isLogined() == false) {
-			return Ut.jsReplace("F-A", "로그인 후 이용해주세요", "../member/login");
-		}
 		Article article = articleService.getArticle(id);
 
 		if (article == null) {
