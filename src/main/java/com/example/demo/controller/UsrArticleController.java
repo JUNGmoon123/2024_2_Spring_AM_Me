@@ -56,7 +56,16 @@ public class UsrArticleController {
 		//초기 페이지 디폴트로 1주고, 페이지는 10개씩, 해당게시판ID도 넘김
 		List<Article> articles = articleService.getForPrintArticles(boardId, itemsInAPage, page);
 
-		model.addAttribute("board", board);
+		int pageGroup = (int) Math.ceil((double) page / itemsInAPage); // 한번에 보여줄 페이지의 그룹
+//		int from_v2 = ((pageGroup - 1) * itemsInAPage) + 1; // 한번에 보여줄 때의 첫번째 페이지 번호
+//		int end_v2 = pageGroup * itemsInAPage; // 한번에 보여줄 때의 마지막 페이지 번호
+		int beforeBtn = page - itemsInAPage;
+		int afterBtn = pageGroup * itemsInAPage + 1;
+		req.setAttribute("beforeBtn", beforeBtn);
+		req.setAttribute("afterBtn", afterBtn);
+		req.setAttribute("page", page);
+		req.setAttribute("itemsInAPage", itemsInAPage);
+		req.setAttribute("totalPage", pageGroup);
 		model.addAttribute("articlesCount", articlesCount);
 		model.addAttribute("articles", articles);
 

@@ -95,7 +95,7 @@ public class ArticleService {
 //		SELECT * FROM article WHERE boardId = 1 ORDER BY id DESC LIMIT 0, 10; 1page
 //		SELECT * FROM article WHERE boardId = 1 ORDER BY id DESC LIMIT 10, 10; 2page
 		
-		int limitFrom = (page - 1) * itemsInAPage;	//10개씩 출력시 다음 11번째 페이지 찾기.
+		int limitFrom = (page - 1) * itemsInAPage;	//10개씩 출력시 다음 11번째 페이지 찾기
 		int limitTake = itemsInAPage;
 
 		return articleRepository.getForPrintArticles(boardId, limitFrom, limitTake);
