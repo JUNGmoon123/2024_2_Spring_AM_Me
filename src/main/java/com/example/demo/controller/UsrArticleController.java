@@ -61,6 +61,8 @@ public class UsrArticleController {
 		List<Article> articles = articleService.getForPrintArticles(boardId, itemsInAPage, page);
 
 		model.addAttribute("board", board);
+		model.addAttribute("boardId", boardId);
+		model.addAttribute("page", page);
 		model.addAttribute("pagesCount", pagesCount);
 		model.addAttribute("articlesCount", articlesCount);
 		model.addAttribute("articles", articles);
