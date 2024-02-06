@@ -38,19 +38,26 @@ public class UsrArticleController {
 	// 액션 메서드
 
 	@RequestMapping("/usr/article/list")
-	public String showList(HttpServletRequest req, Model model, @RequestParam(defaultValue = "1") int boardId) {
+	public String showList(HttpServletRequest req, Model model, @RequestParam(defaultValue = "1") int boardId,
+			@RequestParam(defaultValue = "1") int page) {
 
 		Rq rq = (Rq) req.getAttribute("rq");
 
 		Board board = boardService.getBoardById(boardId);
-
-		List<Article> articles = articleService.getForPrintArticles(boardId);
+		
+		
+		int articlesCount = articleService.getArticlesCount(boardId);
 
 		if (board == null) {
 			return rq.historyBackOnView("없는 게시판이야");
 		}
 
+		int itemsInAPage = 10;	//페이지 10개씩 출력?
+		//초기 페이지 디폴트로 1주고, 페이지는 10개씩, 해당게시판ID도 넘김
+		List<Article> articles = articleService.getForPrintArticles(boardId, itemsInAPage, page);
+
 		model.addAttribute("board", board);
+		model.addAttribute("articlesCount", articlesCount);
 		model.addAttribute("articles", articles);
 
 		return "usr/article/list";
