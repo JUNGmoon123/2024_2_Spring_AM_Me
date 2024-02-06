@@ -75,4 +75,11 @@ public interface ArticleRepository {
 			""")
 	public List<Article> getForPrintArticles(int boardId);
 
+
+	@Select("""
+			SELECT COUNT(*) 
+			FROM article;
+			""")
+	public int totalgetArticles();
+
 }

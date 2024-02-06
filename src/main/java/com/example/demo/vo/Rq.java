@@ -75,5 +75,13 @@ public class Rq {
 	public void initBeforeActionInterceptor() {
 
 	}
+	
+	//articlelist에서 없는 게시판ID값을 받으면 js로 넘겨서 뒤로가게 해준다.
+	//js.jsp참고
+	public String historyBackOnView(String msg) {
+		req.setAttribute("msg", msg);
+		req.setAttribute("historyBack", true);
+		return "usr/common/js";
+	}
 
 }

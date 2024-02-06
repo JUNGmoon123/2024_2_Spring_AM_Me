@@ -10,10 +10,8 @@ public interface BoardRepository {
 
 	@Select("""
 				SELECT *
-				FROM board AS b
-				INNER JOIN article AS a
-				ON a.boardId = b.id
-				WHERE b.id = #{boardId}
+				FROM board
+				WHERE id = #{boardId}
 				AND delStatus = 0;
 			""")
 	public Board getBoardById(int boardId);
