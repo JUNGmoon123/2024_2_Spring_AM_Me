@@ -28,13 +28,39 @@
 					<tr class="hover">
 						<td>${article.id }</td>
 						<td>${article.regDate.substring(0,10) }</td>
-						<td><a href="detail?id=${article.id }">${article.title }</a></td>
+						<td>
+							<a href="detail?id=${article.id }">${article.title }</a>
+						</td>
 						<td>${article.extra__writer }</td>
 					</tr>
 				</c:forEach>
 			</tbody>
 		</table>
 	</div>
+	<!-- 	검색기능 -->
+	<form method="post" name="search" action="">
+		<table class="pull-right">
+			<tr>
+				<td>
+					<select class="select select-warning w-full max-w-xs">
+						<option disabled selected>선택</option>
+						<option>제목</option>
+						<option>작성자</option>
+						<option>내용</option>
+					</select>
+				</td>
+				<td>
+					<input type="text" placeholder="검색어 입력" class="input input-bordered input-warning w-full max-w-xs" />
+				</td>
+				<td>
+					<button type="submit" class="btn btn-success">검색</button>
+				</td>
+			</tr>
+
+		</table>
+	</form>
+
+
 	<!-- 	동적 페이징 -->
 	<div class="pagination flex justify-center mt-3">
 		<c:set var="paginationLen" value="3" />
