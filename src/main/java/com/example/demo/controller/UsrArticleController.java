@@ -44,28 +44,24 @@ public class UsrArticleController {
 		Rq rq = (Rq) req.getAttribute("rq");
 
 		Board board = boardService.getBoardById(boardId);
-		
-		
+
 		int articlesCount = articleService.getArticlesCount(boardId);
 
 		if (board == null) {
 			return rq.historyBackOnView("없는 게시판이야");
 		}
 
-		int itemsInAPage = 10;	//페이지 10개씩 출력?
-		//초기 페이지 디폴트로 1주고, 페이지는 10개씩, 해당게시판ID도 넘김
+		// 한페이지에 글 10개씩이야
+		// 글 20개 -> 2 page
+		// 글 24개 -> 3 page
+		int itemsInAPage = 10;
+
+		int pagesCount = (int) Math.ceil(articlesCount / (double) itemsInAPage);
+
 		List<Article> articles = articleService.getForPrintArticles(boardId, itemsInAPage, page);
 
-		int pageGroup = (int) Math.ceil((double) page / itemsInAPage); // 한번에 보여줄 페이지의 그룹
-//		int from_v2 = ((pageGroup - 1) * itemsInAPage) + 1; // 한번에 보여줄 때의 첫번째 페이지 번호
-//		int end_v2 = pageGroup * itemsInAPage; // 한번에 보여줄 때의 마지막 페이지 번호
-		int beforeBtn = page - itemsInAPage;
-		int afterBtn = pageGroup * itemsInAPage + 1;
-		req.setAttribute("beforeBtn", beforeBtn);
-		req.setAttribute("afterBtn", afterBtn);
-		req.setAttribute("page", page);
-		req.setAttribute("itemsInAPage", itemsInAPage);
-		req.setAttribute("totalPage", pageGroup);
+		model.addAttribute("board", board);
+		model.addAttribute("pagesCount", pagesCount);
 		model.addAttribute("articlesCount", articlesCount);
 		model.addAttribute("articles", articles);
 
