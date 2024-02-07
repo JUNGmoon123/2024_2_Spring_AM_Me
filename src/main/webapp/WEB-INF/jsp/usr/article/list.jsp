@@ -38,57 +38,50 @@
 		</table>
 	</div>
 	<!-- 	검색기능 -->
-	<form method="post" name="search" action="">
-		<table class="pull-right">
-			<tr>
+
+<!-- 	name이 value의 값을 적용시키는 부분이고, value가 변수임 선택된 title/body값을 name으로 넘겨주면 된다. -->
+	<table class="pull-right">
+		<tr>
+			<form action="../article/list" method="GET">
+				<input type="hidden" name="boardId" value="${param.boardId }" />
+				<input type="hidden" name="page" value="1" />
 				<td>
-					<select class="select select-warning w-full max-w-xs">
+					<select class="select select-warning w-full max-w-xs" name="searchKeywordTypeCode">
 						<option disabled selected>선택</option>
-						<option>제목</option>
-						<option>작성자</option>
-						<option>내용</option>
+						<option value="title">제목</option>
+						<option value="body">내용</option>
 					</select>
 				</td>
-<%-- 				<c:set var="${article.TypeCode}" /> --%>
-				<!-- 조건문 시작 -->
-<%-- 				<c:choose> --%>
-<%-- 					<c:when test="${article.searchKeyword} == ${article.TypeCode}"> --%>
-<%-- 						<option value="${article.searchKeyword }">제목</option> --%>
-<%-- 					</c:when> --%>
-<%-- 					<c:when test="${article.searchKeyword} == ${article.TypeCode }"> --%>
-<%-- 						<option value="${article.searchKeyword }">내용</option> --%>
-<%-- 					</c:when> --%>
-<%-- 				</c:choose> --%>
 				<td>
-					<input type="text" placeholder="검색어 입력" class="input input-bordered input-warning w-full max-w-xs" />
+					<input class="input input-bordered input-primary w-full max-w-xs" autocomplete="off" type="text" placeholder="검색"
+						name="searchKeyword" />
 				</td>
 				<td>
 					<button type="submit" class="btn btn-success">검색</button>
 				</td>
-			</tr>
+			</form>
+		</tr>
+	</table>
 
-		</table>
-	</form>
-
-
+<!-- 	&searchKeywordTypeCode=${param.searchKeywordTypeCode}&searchKeyword=${param.searchKeyword}를 param으로 해주면 Url에 입력된 값을  -->
+<!-- 	그대로 가져와서 적용하면 검색한 후에 이동시 그대로 유지되면서 이동이 된다. -->
 	<!-- 	동적 페이징 -->
 	<div class="pagination flex justify-center mt-3">
 		<c:set var="paginationLen" value="3" />
 		<c:set var="startPage" value="${page -  paginationLen  >= 1 ? page - paginationLen : 1}" />
 		<c:set var="endPage" value="${page +  paginationLen  <= pagesCount ? page + paginationLen : pagesCount}" />
-
 		<c:if test="${startPage > 1 }">
 			<a class="btn btn-sm" href="?page=1&boardId=${boardId }">1</a>
 			<button class="btn btn-sm btn-disabled">...</button>
 		</c:if>
 
 		<c:forEach begin="${startPage }" end="${endPage }" var="i">
-			<a class="btn btn-sm ${param.page == i ? 'btn-active' : '' }" href="?page=${i }&boardId=${boardId}">${i }</a>
+			<a class="btn btn-sm ${param.page == i ? 'btn-active' : '' }" href="?page=${i }&boardId=${boardId}&searchKeywordTypeCode=${param.searchKeywordTypeCode}&searchKeyword=${param.searchKeyword}">${i }</a>
 		</c:forEach>
 
 		<c:if test="${endPage < pagesCount }">
 			<button class="btn btn-sm btn-disabled">...</button>
-			<a class="btn btn-sm" href="?page=${pagesCount }&boardId=${boardId }">${pagesCount }</a>
+			<a class="btn btn-sm" href="?page=${pagesCount }&boardId=${boardId }&searchKeywordTypeCode=${param.searchKeywordTypeCode}&searchKeyword=${param.searchKeyword}">${pagesCount }</a>
 		</c:if>
 
 	</div>

@@ -62,8 +62,7 @@ public class UsrArticleController {
 
 		List<Article> articles = articleService.getForPrintArticles(boardId, itemsInAPage, page,  searchKeywordTypeCode,  searchKeyword);
 
-		model.addAttribute("searchKeyword", searchKeyword);
-		model.addAttribute("TypeCode", searchKeywordTypeCode);
+
 		model.addAttribute("board", board);
 		model.addAttribute("boardId", boardId);
 		model.addAttribute("page", page);
