@@ -138,5 +138,15 @@ public interface ArticleRepository {
 			</script>
 			""")
 	public List<Article> getForPrintArticles(int boardId, int limitFrom, int limitTake, String searchKeywordTypeCode, String searchKeyword);
+	
+	
+	@Update("""
+			UPDATE article
+				<set>
+				cnt = #{cnt + 1}
+				</set>
+			WHERE id = #{id}
+			""")
+	public int IncreaseCnt(int id, int cnt);
 
 }

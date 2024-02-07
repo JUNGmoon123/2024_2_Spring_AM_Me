@@ -28,60 +28,38 @@
 					<tr class="hover">
 						<td>${article.id }</td>
 						<td>${article.regDate.substring(0,10) }</td>
-						<td>
-							<a href="detail?id=${article.id }">${article.title }</a>
-						</td>
+						<td><a href="detail?id=${article.id }">${article.title }</a></td>
 						<td>${article.extra__writer }</td>
 					</tr>
 				</c:forEach>
 			</tbody>
 		</table>
 	</div>
-	<!-- 	검색기능 -->
 
-<!-- 	name이 value의 값을 적용시키는 부분이고, value가 변수임 선택된 title/body값을 name으로 넘겨주면 된다. -->
-	<table class="pull-right">
-		<tr>
-			<form action="../article/list" method="GET">
-				<input type="hidden" name="boardId" value="${param.boardId }" />
-				<input type="hidden" name="page" value="1" />
-				<td>
-					<select class="select select-warning w-full max-w-xs" name="searchKeywordTypeCode">
-						<option disabled selected>선택</option>
-						<option value="title">제목</option>
-						<option value="body">내용</option>
-					</select>
-				</td>
-				<td>
-					<input class="input input-bordered input-primary w-full max-w-xs" autocomplete="off" type="text" placeholder="검색"
-						name="searchKeyword" />
-				</td>
-				<td>
-					<button type="submit" class="btn btn-success">검색</button>
-				</td>
-			</form>
-		</tr>
-	</table>
-
-<!-- 	&searchKeywordTypeCode=${param.searchKeywordTypeCode}&searchKeyword=${param.searchKeyword}를 param으로 해주면 Url에 입력된 값을  -->
-<!-- 	그대로 가져와서 적용하면 검색한 후에 이동시 그대로 유지되면서 이동이 된다. -->
 	<!-- 	동적 페이징 -->
 	<div class="pagination flex justify-center mt-3">
 		<c:set var="paginationLen" value="3" />
 		<c:set var="startPage" value="${page -  paginationLen  >= 1 ? page - paginationLen : 1}" />
 		<c:set var="endPage" value="${page +  paginationLen  <= pagesCount ? page + paginationLen : pagesCount}" />
+		
+<!-- 		baseUri라는걸 만들어서 마치 '+='하는것처럼 누적해서 검색어를 끼워붙임, 스스로 만든건 밑에 일일히 다 값을 넣어줘서 했는데 -->
+<!-- 		c:set으로만 해서 밑에 forEach문의 값이 늘어나지 않음. -->
+		<c:set var="baseUri" value="?boardId=${boardId }" />
+		<c:set var="baseUri" value="${baseUri }&searchKeywordTypeCode=${searchKeywordTypeCode}" />
+		<c:set var="baseUri" value="${baseUri }&searchKeyword=${searchKeyword}" />
+
 		<c:if test="${startPage > 1 }">
-			<a class="btn btn-sm" href="?page=1&boardId=${boardId }">1</a>
+			<a class="btn btn-sm" href="${baseUri }&page=1">1</a>
 			<button class="btn btn-sm btn-disabled">...</button>
 		</c:if>
 
 		<c:forEach begin="${startPage }" end="${endPage }" var="i">
-			<a class="btn btn-sm ${param.page == i ? 'btn-active' : '' }" href="?page=${i }&boardId=${boardId}&searchKeywordTypeCode=${param.searchKeywordTypeCode}&searchKeyword=${param.searchKeyword}">${i }</a>
+			<a class="btn btn-sm ${param.page == i ? 'btn-active' : '' }" href="${baseUri }&page=${i }">${i }</a>
 		</c:forEach>
 
 		<c:if test="${endPage < pagesCount }">
 			<button class="btn btn-sm btn-disabled">...</button>
-			<a class="btn btn-sm" href="?page=${pagesCount }&boardId=${boardId }&searchKeywordTypeCode=${param.searchKeywordTypeCode}&searchKeyword=${param.searchKeyword}">${pagesCount }</a>
+			<a class="btn btn-sm" href="${baseUri }&page=${pagesCount }">${pagesCount }</a>
 		</c:if>
 
 	</div>

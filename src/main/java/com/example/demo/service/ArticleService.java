@@ -101,4 +101,9 @@ public class ArticleService {
 		return articleRepository.getForPrintArticles(boardId, limitFrom, limitTake, searchKeywordTypeCode, searchKeyword);
 	}
 
+	public int IncreaseCnt(int id, int cnt) {
+		
+		return articleRepository.IncreaseCnt(id, cnt);
+	}
+
 }
