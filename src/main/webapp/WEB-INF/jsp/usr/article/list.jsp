@@ -6,34 +6,50 @@
 
 <section class="mt-8 text-xl px-4">
 	<div class="mx-auto overflow-x-auto">
-		<div class="badge badge-outline">${articlesCount }개</div>
-		<table class="table-box-1 table" border="1">
-			<colgroup>
-				<col style="width: 10%" />
-				<col style="width: 20%" />
-				<col style="width: 60%" />
-				<col style="width: 10%" />
-			</colgroup>
-			<thead>
-				<tr>
-					<th>번호</th>
-					<th>날짜</th>
-					<th>제목</th>
-					<th>작성자</th>
-				</tr>
-			</thead>
-			<tbody>
+		<div class="mb-4 flex">
+			<div class="badge badge-outline">${articlesCount }개</div>
+			<div class="flex-grow"></div>
+			<form action="">
+				<input type="hidden" name="boardId" value="${param.boardId }" />
+				<select data-value="${param.searchKeywordTypeCode }" class="select select-bordered select-sm w-full max-w-xs"
+					name="searchKeywordTypeCode">
+					<option value="title">title</option>
+					<option value="body">body</option>
+					<option value="title,body">title+body</option>
+				</select>
+				<input value="${param.searchKeyword }" name="searchKeyword" type="text" placeholder="What is your searchKeyword?"
+					class="input-sm input input-bordered w-48 max-w-xs" />
+				<button class="btn btn-ghost btn-sm" type="submit">검색</button>
+			</form>
+		</div>
+	</div>
+	<table class="table-box-1 table" border="1">
+		<colgroup>
+			<col style="width: 10%" />
+			<col style="width: 20%" />
+			<col style="width: 60%" />
+			<col style="width: 10%" />
+		</colgroup>
+		<thead>
+			<tr>
+				<th>번호</th>
+				<th>날짜</th>
+				<th>제목</th>
+				<th>작성자</th>
+			</tr>
+		</thead>
+		<tbody>
 
-				<c:forEach var="article" items="${articles }">
-					<tr class="hover">
-						<td>${article.id }</td>
-						<td>${article.regDate.substring(0,10) }</td>
-						<td><a href="detail?id=${article.id }">${article.title }</a></td>
-						<td>${article.extra__writer }</td>
-					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
+			<c:forEach var="article" items="${articles }">
+				<tr class="hover">
+					<td>${article.id }</td>
+					<td>${article.regDate.substring(0,10) }</td>
+					<td><a href="detail?id=${article.id }">${article.title }</a></td>
+					<td>${article.extra__writer }</td>
+				</tr>
+			</c:forEach>
+		</tbody>
+	</table>
 	</div>
 
 	<!-- 	동적 페이징 -->
@@ -41,9 +57,7 @@
 		<c:set var="paginationLen" value="3" />
 		<c:set var="startPage" value="${page -  paginationLen  >= 1 ? page - paginationLen : 1}" />
 		<c:set var="endPage" value="${page +  paginationLen  <= pagesCount ? page + paginationLen : pagesCount}" />
-		
-<!-- 		baseUri라는걸 만들어서 마치 '+='하는것처럼 누적해서 검색어를 끼워붙임, 스스로 만든건 밑에 일일히 다 값을 넣어줘서 했는데 -->
-<!-- 		c:set으로만 해서 밑에 forEach문의 값이 늘어나지 않음. -->
+
 		<c:set var="baseUri" value="?boardId=${boardId }" />
 		<c:set var="baseUri" value="${baseUri }&searchKeywordTypeCode=${searchKeywordTypeCode}" />
 		<c:set var="baseUri" value="${baseUri }&searchKeyword=${searchKeyword}" />
