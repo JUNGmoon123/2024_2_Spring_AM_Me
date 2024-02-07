@@ -46,7 +46,7 @@ public class UsrArticleController {
 		Rq rq = (Rq) req.getAttribute("rq");
 
 		Board board = boardService.getBoardById(boardId);
-
+		//웹 오른쪽에 각 게시판에 해당하는 글이 총 몇개인지 보여줌.
 		int articlesCount = articleService.getArticlesCount(boardId, searchKeywordTypeCode, searchKeyword);
 
 		if (board == null) {
@@ -60,8 +60,10 @@ public class UsrArticleController {
 
 		int pagesCount = (int) Math.ceil(articlesCount / (double) itemsInAPage);
 
-		List<Article> articles = articleService.getForPrintArticles(boardId, itemsInAPage, page);
+		List<Article> articles = articleService.getForPrintArticles(boardId, itemsInAPage, page,  searchKeywordTypeCode,  searchKeyword);
 
+		model.addAttribute("searchKeyword", searchKeyword);
+		model.addAttribute("TypeCode", searchKeywordTypeCode);
 		model.addAttribute("board", board);
 		model.addAttribute("boardId", boardId);
 		model.addAttribute("page", page);

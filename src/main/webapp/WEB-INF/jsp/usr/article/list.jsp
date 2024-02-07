@@ -49,6 +49,16 @@
 						<option>내용</option>
 					</select>
 				</td>
+<%-- 				<c:set var="${article.TypeCode}" /> --%>
+				<!-- 조건문 시작 -->
+<%-- 				<c:choose> --%>
+<%-- 					<c:when test="${article.searchKeyword} == ${article.TypeCode}"> --%>
+<%-- 						<option value="${article.searchKeyword }">제목</option> --%>
+<%-- 					</c:when> --%>
+<%-- 					<c:when test="${article.searchKeyword} == ${article.TypeCode }"> --%>
+<%-- 						<option value="${article.searchKeyword }">내용</option> --%>
+<%-- 					</c:when> --%>
+<%-- 				</c:choose> --%>
 				<td>
 					<input type="text" placeholder="검색어 입력" class="input input-bordered input-warning w-full max-w-xs" />
 				</td>
