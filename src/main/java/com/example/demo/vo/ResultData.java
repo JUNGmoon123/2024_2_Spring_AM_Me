@@ -11,7 +11,12 @@ public class ResultData<DT> {
 	private DT data1;
 	@Getter
 	private String data1Name;
-
+	
+	@Getter
+	private Object data2;	//조회수 정보추가 게시글번호 정보
+	@Getter
+	private String data2Name;	//조회수 정보추가 ID정보
+	
 	public static <DT> ResultData<DT> from(String resultCode, String msg) {
 		return from(resultCode, msg, null, null);
 	}
@@ -37,5 +42,12 @@ public class ResultData<DT> {
 	public boolean isFail() {
 		return isSuccess() == false;
 	}
-
+	
+	//조회수 증가 확인정보위함
+	//이 정보는 웹의 상세보기의 f12에 네트워크에서 response부분임
+	public void setData2(String data2Name, Object data2) {
+		this.data2Name = data2Name;
+		this.data2 = data2;
+	}
+	
 }

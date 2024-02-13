@@ -21,7 +21,8 @@
 			$('.article-detail__hit-count').empty().html(data.data1);
 		}, 'json');
 	}
-
+	
+	
 	$(function() {
 // 		ArticleDetail__doIncreaseHitCount();
 		setTimeout(ArticleDetail__doIncreaseHitCount, 2000);
