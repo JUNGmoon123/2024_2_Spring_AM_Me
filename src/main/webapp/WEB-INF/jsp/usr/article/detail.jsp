@@ -34,7 +34,7 @@
 				</tr>
 				<tr>
 					<th>조회수</th>
-					<td>${article.cnt }</td>
+					<td>${article.hitCount }</td>
 				</tr>
 			</tbody>
 		</table>

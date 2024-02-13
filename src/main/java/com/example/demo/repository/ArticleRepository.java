@@ -106,7 +106,14 @@ public interface ArticleRepository {
 			</script>
 			""")
 	public int getArticlesCount(int boardId, String searchKeywordTypeCode, String searchKeyword);
-	
+
+	@Update("""
+			UPDATE article
+			SET hitCount = hitCount + 1
+			WHERE id = #{id}
+			""")
+	public void increaseHitCount(int id);
+
 	@Select("""
 			<script>
 			SELECT A.*, M.nickname AS extra__writer
@@ -137,16 +144,7 @@ public interface ArticleRepository {
 			</if>
 			</script>
 			""")
-	public List<Article> getForPrintArticles(int boardId, int limitFrom, int limitTake, String searchKeywordTypeCode, String searchKeyword);
-	
-	
-	@Update("""
-			UPDATE article
-				<set>
-				cnt = #{cnt + 1}
-				</set>
-			WHERE id = #{id}
-			""")
-	public int IncreaseCnt(int id, int cnt);
+	public List<Article> getForPrintArticles(int boardId, int limitFrom, int limitTake, String searchKeywordTypeCode,
+			String searchKeyword);
 
 }
