@@ -74,23 +74,32 @@ public class UsrArticleController {
 
 		return "usr/article/list";
 	}
-
+	
+	//detail부분을 나눔, 보여주기와 증가되는 부분이 나뉘어져서 레포에 설정되어있음.
+	
 	@RequestMapping("/usr/article/detail")
 	public String showDetail(HttpServletRequest req, Model model, int id) {
 		Rq rq = (Rq) req.getAttribute("rq");
 
-		//조회수 증가, 이 메소드를 밑으로 보낼경우 순서의 문제 발생,
-		// article객체가 생성되는게 조회수증가후 생성돼야 웹에서 바로 볼 수 있음.
-		ResultData increaseHitCountRd = articleService.increaseHitCount(id);
-
-		if (increaseHitCountRd.isFail()) {
-			return rq.historyBackOnView(increaseHitCountRd.getMsg());
-		}
 		Article article = articleService.getForPrintArticle(rq.getLoginedMemberId(), id);
 
 		model.addAttribute("article", article);
 
 		return "usr/article/detail";
+	}
+
+	@RequestMapping("/usr/article/doIncreaseHitCountRd")
+	@ResponseBody
+	public ResultData doIncreaseHitCountRd(int id) {
+
+		ResultData increaseHitCountRd = articleService.increaseHitCount(id);
+
+		if (increaseHitCountRd.isFail()) {
+			return increaseHitCountRd;
+		}
+
+		return ResultData.newData(increaseHitCountRd, "hitCount", articleService.getArticleHitCount(id));
+
 	}
 
 	@RequestMapping("/usr/article/write")
