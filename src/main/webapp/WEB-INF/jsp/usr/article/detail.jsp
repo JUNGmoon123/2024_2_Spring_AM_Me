@@ -14,6 +14,14 @@
 <!-- 한번 영상 다시보고오기 '상세보기 내의 조회수 증가를 Ajax로 처리' -->
 <script>
 	function ArticleDetail__doIncreaseHitCount() {
+		const localStorageKey = 'article__' + params.id + '__alreadyView';
+		if (localStorage.getItem(localStorageKey)) {
+			return;
+		}
+		localStorage.setItem(localStorageKey, true);
+		
+		
+		
 		$.get('../article/doIncreaseHitCountRd', {
 			id : params.id,
 			ajaxMode : 'Y'
