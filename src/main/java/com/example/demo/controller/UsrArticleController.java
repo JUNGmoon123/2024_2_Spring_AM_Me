@@ -79,9 +79,13 @@ public class UsrArticleController {
 	public String showDetail(HttpServletRequest req, Model model, int id) {
 		Rq rq = (Rq) req.getAttribute("rq");
 
-		articleService.increaseHitCount(id);	//조회수 증가, 이 메소드를 밑으로 보낼경우 순서의 문제 발생,
-							// article객체가 생성되는게 조회수증가후 생성돼야 웹에서 바로 볼 수 있음.
+		//조회수 증가, 이 메소드를 밑으로 보낼경우 순서의 문제 발생,
+		// article객체가 생성되는게 조회수증가후 생성돼야 웹에서 바로 볼 수 있음.
+		ResultData increaseHitCountRd = articleService.increaseHitCount(id);
 
+		if (increaseHitCountRd.isFail()) {
+			return rq.historyBackOnView(increaseHitCountRd.getMsg());
+		}
 		Article article = articleService.getForPrintArticle(rq.getLoginedMemberId(), id);
 
 		model.addAttribute("article", article);
