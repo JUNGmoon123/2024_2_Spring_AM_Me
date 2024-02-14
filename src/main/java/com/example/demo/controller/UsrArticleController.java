@@ -87,7 +87,8 @@ public class UsrArticleController {
 
 		return "usr/article/detail";
 	}
-
+	
+	
 	@RequestMapping("/usr/article/doIncreaseHitCountRd")
 	@ResponseBody
 	public ResultData doIncreaseHitCountRd(int id) {
@@ -101,7 +102,7 @@ public class UsrArticleController {
 		//ResultData의 필드에 내용이 더 필요하면 필드내에 변수를 더 추가해서 보여줄 수 있다.
 		
 		ResultData rd = ResultData.newData(increaseHitCountRd, "hitCount", articleService.getArticleHitCount(id));
-
+		
 		rd.setData2("id", id);	//조회수가 증가된 해당id를 넘겨주면 setData2에서 id에 해당하는 
 								//게시글 조회수, 번호 를 저장한다.
 

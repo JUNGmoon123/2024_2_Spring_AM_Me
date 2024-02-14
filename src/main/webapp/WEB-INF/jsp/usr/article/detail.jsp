@@ -3,25 +3,22 @@
 <c:set var="pageTitle" value="ARTICLE DETAIL"></c:set>
 <%@ include file="../common/head.jspf"%>
 
-<!-- iframe을 사용하면 웹페이지에서 어떤걸 요청하는지 보여줄수 있다. -->
 <!-- <iframe src="http://localhost:8081/usr/article/doIncreaseHitCountRd?id=372" frameborder="0"></iframe> -->
 <script>
 	const params = {};
 	params.id = parseInt('${param.id}');
 </script>
-<!-- articleController의 detail부분을 나누어서 반응형? 으로 만들었는데  -->
-<!-- 밑의2000는 밀리초여서 2000은 2초가 된다. detail부분이니 상세보기로 들어가면 조회수가 2초뒤네 1오르는걸 볼 수있음. -->
-<!-- 한번 영상 다시보고오기 '상세보기 내의 조회수 증가를 Ajax로 처리' -->
+
 <script>
 	function ArticleDetail__doIncreaseHitCount() {
 		const localStorageKey = 'article__' + params.id + '__alreadyView';
+
 		if (localStorage.getItem(localStorageKey)) {
 			return;
 		}
+
 		localStorage.setItem(localStorageKey, true);
-		
-		
-		
+
 		$.get('../article/doIncreaseHitCountRd', {
 			id : params.id,
 			ajaxMode : 'Y'
@@ -29,10 +26,9 @@
 			$('.article-detail__hit-count').empty().html(data.data1);
 		}, 'json');
 	}
-	
-	
+
 	$(function() {
-// 		ArticleDetail__doIncreaseHitCount();
+		// 		ArticleDetail__doIncreaseHitCount();
 		setTimeout(ArticleDetail__doIncreaseHitCount, 2000);
 	})
 </script>
@@ -58,6 +54,22 @@
 					<td>${article.extra__writer }</td>
 				</tr>
 				<tr>
+					<th>좋아요</th>
+					<td>${article.extra__goodReactionPoint }</td>
+				</tr>
+				<tr>
+					<th>싫어요</th>
+					<td>${article.extra__badReactionPoint }</td>
+				</tr>
+				<tr>
+					<th>추천 합</th>
+					<td>${article.extra__sumReactionPoint }</td>
+				</tr>
+				<tr>
+					<th>조회수</th>
+					<td><span class="article-detail__hit-count">${article.hitCount }</span></td>
+				</tr>
+				<tr>
 					<th>제목</th>
 					<td>${article.title }</td>
 				</tr>
@@ -65,10 +77,7 @@
 					<th>내용</th>
 					<td>${article.body }</td>
 				</tr>
-				<tr>
-					<th>조회수</th>
-					<td><span class="article-detail__hit-count">${article.hitCount }</span></td>
-				</tr>
+
 			</tbody>
 		</table>
 		<div class="btns mt-5">
