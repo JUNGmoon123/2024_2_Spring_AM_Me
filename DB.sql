@@ -248,8 +248,7 @@ FROM article AS A
 WHERE 1
 AND boardId = 1
 AND A.title LIKE CONCAT('%','0000','%')
-			
-ORDER BY id DESC
+ORDER BY id DESC;
 
 SELECT COUNT(*)
 FROM article AS A
@@ -257,10 +256,47 @@ WHERE 1
 AND boardId = 1
 AND A.title LIKE CONCAT('%','0000','%')
 OR A.body LIKE CONCAT('%','0000','%')
+ORDER BY id DESC;
 
-ORDER BY id DESC
 
+SELECT hitCount
+FROM article
+WHERE id = 374;
 
-select hitCount
-from article
-where id = 374;
+SELECT IFNULL(NAME, "No name"), A.*, M.nickname AS extra__writer, R.relId, R.point
+FROM article AS A
+INNER JOIN `member` AS M
+ON A.memberId = M.id
+RIGHT JOIN reactionPoint AS R
+ON M.id = R.memberId
+WHERE A.id = 16
+
+#서브쿼리
+##1.
+-- select A.*,
+-- ifnull(sum(RP.point), 0) as extra__sumReactionPoint,
+-- IFNULL(SUM(if(RP.point>0, RP.point, 0)), 0) AS extra__goodReactionPoint,
+-- IFNULL(SUM(IF(RP.point<0, RP.point, 0)), 0) AS extra__badReactionPoint
+-- from( 
+-- select A.*, M.nickname As extra--writer
+-- from article as A
+-- inner join `member` as M
+-- on A.memberId = M.id
+-- ) as A
+-- left join reactionPoint As RP
+-- on A.id = RP.relId and RP.relTypeCode = 'article'
+-- group by A.id
+-- order by A.id desc;
+
+##2.
+SELECT A.*, M.nickname AS extra__writer,
+IFNULL(SUM(RP.point), 0) AS extra__sumReactionPoint,
+IFNULL(SUM(IF(RP.point > 0, RP.point, 0)), 0) AS extra__goodReactionPoint,
+IFNULL(SUM(IF(RP.point < 0, RP.point, 0)), 0) AS extra__badReactionPoint
+FROM article AS A
+INNER JOIN `member` AS M
+ON A.memberId = M.id
+LEFT JOIN reactionPoint AS RP
+ON A.id = RP.relId AND RP.relTypeCode = 'article'
+WHERE A.id = 1
+GROUP BY A.id;
