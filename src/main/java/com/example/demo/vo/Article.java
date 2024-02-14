@@ -15,10 +15,14 @@ public class Article {
 	private String title;
 	private String body;
 	private String extra__writer;
+	
+	//조회수
 	private int hitCount;
+	//좋아요,싫어요,합
 	private String extra__sumReactionPoint;
 	private String extra__goodReactionPoint;
 	private String extra__badReactionPoint;
+
 	
 	private boolean userCanModify;
 	private boolean userCanDelete;
