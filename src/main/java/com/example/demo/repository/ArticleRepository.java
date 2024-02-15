@@ -161,5 +161,19 @@ public interface ArticleRepository {
 			""")
 	public List<Article> getForPrintArticles(int boardId, int limitFrom, int limitTake, String searchKeywordTypeCode,
 			String searchKeyword);
-
+	
+	@Update("""
+			UPDATE article
+			SET goodReactionPoint = goodReactionPoint + 1
+			WHERE id = #{relId}
+			""")
+	public int increaseGoodReactionPoint(int relId);
+	//Update join으로 article테이블에 good, bad컬럼이 생겨서 각각 좋아요,싫어요 받으면 숫자올려서 카운트함.
+	@Update("""
+			UPDATE article
+			SET badReactionPoint = badReactionPoint + 1
+			WHERE id = #{relId}
+			""")
+	public int decreaseBadReactionPoint(int relId);
+	
 }

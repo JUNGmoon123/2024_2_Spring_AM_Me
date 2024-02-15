@@ -83,5 +83,24 @@ public class Rq {
 		req.setAttribute("historyBack", true);
 		return "usr/common/js";
 	}
+	
+	//detail에서 좋아요 또는 싫어요를 누르고 처리하기 위해서 만든 메서드, 누르기전? 현재? 의 Uri주소를 가져와서
+	//알림창뜨고난후 처리를 해준다.
+	public String getCurrentUri() {
+		String currentUri = req.getRequestURI();
+		String queryString = req.getQueryString();
+
+		System.err.println(currentUri);
+		System.err.println(queryString);
+
+		if (currentUri != null && queryString != null) {
+			currentUri += "?" + queryString;
+		}
+
+		System.out.println(currentUri);
+
+		return currentUri;
+
+	}
 
 }
