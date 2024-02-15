@@ -64,7 +64,6 @@
 					<td>${article.badReactionPoint }</td>
 				</tr>
 				<tr>
-					<!-- 				a태그로 처리하고, relTypeCode는 article로 고정되어있으며, uri에 있는 값을 가져와서 처리하기위해 param을 씀, rq는 처리하고난후 사용자를 어디로든 이동시킬려고 현재Uri를 가져온다. -->
 					<th>추천 ${usersReaction }</th>
 					<td>
 						<a href="/usr/reactionPoint/doGoodReaction?relTypeCode=article&relId=${param.id }&replaceUri=${rq.currentUri}"

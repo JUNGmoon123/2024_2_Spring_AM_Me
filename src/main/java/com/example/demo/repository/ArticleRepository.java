@@ -11,7 +11,6 @@ import org.apache.ibatis.annotations.Update;
 import com.example.demo.vo.Article;
 
 @Mapper
-
 public interface ArticleRepository {
 
 	@Insert("""
@@ -124,9 +123,7 @@ public interface ArticleRepository {
 			WHERE id = #{id}
 			""")
 	public int getArticleHitCount(int id);
-	//extra로 IFNULL인 좋아요, 싫어요를 Update join으로 인해 article테이블로 합류되면서
-	//article 전체를 불러오기만해도 좋아요, 싫어요를 가져올수 있게됨, 그래서 select에서 없앰
-	
+
 	@Select("""
 			<script>
 			SELECT A.*,
@@ -161,19 +158,33 @@ public interface ArticleRepository {
 			""")
 	public List<Article> getForPrintArticles(int boardId, int limitFrom, int limitTake, String searchKeywordTypeCode,
 			String searchKeyword);
-	
+
 	@Update("""
 			UPDATE article
 			SET goodReactionPoint = goodReactionPoint + 1
 			WHERE id = #{relId}
 			""")
 	public int increaseGoodReactionPoint(int relId);
-	//Update join으로 article테이블에 good, bad컬럼이 생겨서 각각 좋아요,싫어요 받으면 숫자올려서 카운트함.
+
+	@Update("""
+			UPDATE article
+			SET goodReactionPoint = goodReactionPoint - 1
+			WHERE id = #{relId}
+			""")
+	public int decreaseGoodReactionPoint(int relId);
+
 	@Update("""
 			UPDATE article
 			SET badReactionPoint = badReactionPoint + 1
 			WHERE id = #{relId}
 			""")
+	public int increaseBadReactionPoint(int relId);
+
+	@Update("""
+			UPDATE article
+			SET badReactionPoint = badReactionPoint - 1
+			WHERE id = #{relId}
+			""")
 	public int decreaseBadReactionPoint(int relId);
-	
+
 }

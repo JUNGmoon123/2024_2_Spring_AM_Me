@@ -75,17 +75,13 @@ public class Rq {
 	public void initBeforeActionInterceptor() {
 
 	}
-	
-	//articlelist에서 없는 게시판ID값을 받으면 js로 넘겨서 뒤로가게 해준다.
-	//js.jsp참고
+
 	public String historyBackOnView(String msg) {
 		req.setAttribute("msg", msg);
 		req.setAttribute("historyBack", true);
 		return "usr/common/js";
 	}
-	
-	//detail에서 좋아요 또는 싫어요를 누르고 처리하기 위해서 만든 메서드, 누르기전? 현재? 의 Uri주소를 가져와서
-	//알림창뜨고난후 처리를 해준다.
+
 	public String getCurrentUri() {
 		String currentUri = req.getRequestURI();
 		String queryString = req.getQueryString();
@@ -100,7 +96,6 @@ public class Rq {
 		System.out.println(currentUri);
 
 		return currentUri;
-
 	}
 
 }
