@@ -37,7 +37,6 @@
 				<th>제목</th>
 				<th>작성자</th>
 				<th>조회수</th>
-				<th>합</th>
 				<th>좋아요</th>
 				<th>싫어요</th>
 			</tr>
@@ -51,9 +50,8 @@
 					<td><a href="detail?id=${article.id }">${article.title }</a></td>
 					<td>${article.extra__writer }</td>
 					<td>${article.hitCount }</td>
-					<td>${article.extra__sumReactionPoint }</td>
-					<td>${article.extra__goodReactionPoint }</td>
-					<td>${article.extra__badReactionPoint }</td>
+					<td>${article.goodReactionPoint }</td>
+					<td>${article.badReactionPoint }</td>
 				</tr>
 			</c:forEach>
 		</tbody>
@@ -87,13 +85,13 @@
 	</div>
 
 	<!-- 	원래 페이징 -->
-<!-- 	<div class="pagination flex justify-center mt-3"> -->
-<!-- 		<div class="btn-group"> -->
-<%-- 			<c:forEach begin="1" end="${pagesCount }" var="i"> --%>
-<%-- 				<a class="btn btn-sm ${param.page == i ? 'btn-active' : '' }" href="?page=${i }&boardId=${param.boardId}">${i }</a> --%>
-<%-- 			</c:forEach> --%>
-<!-- 		</div> -->
-<!-- 	</div> -->
+	<div class="pagination flex justify-center mt-3">
+		<div class="btn-group">
+			<c:forEach begin="1" end="${pagesCount }" var="i">
+				<a class="btn btn-sm ${param.page == i ? 'btn-active' : '' }" href="?page=${i }&boardId=${param.boardId}">${i }</a>
+			</c:forEach>
+		</div>
+	</div>
 </section>
 
 

@@ -11,6 +11,7 @@ import org.apache.ibatis.annotations.Update;
 import com.example.demo.vo.Article;
 
 @Mapper
+
 public interface ArticleRepository {
 
 	@Insert("""
@@ -33,27 +34,16 @@ public interface ArticleRepository {
 			""")
 	public Article getArticle(int id);
 
-//
-//			SELECT A.*, M.nickname AS extra__writer
-//			FROM article AS A
-//			INNER JOIN `member` AS M
-//			ON A.memberId = M.id
-//			WHERE A.id = #{id}
 	@Select("""
-			<script>	
-			SELECT A.*, M.nickname AS extra__writer,
-			IFNULL(SUM(RP.point), 0) AS extra__sumReactionPoint,
-			IFNULL(SUM(IF(RP.point &gt; 0, RP.point, 0)), 0) AS extra__goodReactionPoint,
-			IFNULL(SUM(IF(RP.point &lt; 0, RP.point, 0)), 0) AS extra__badReactionPoint
-			FROM article AS A
-			INNER JOIN `member` AS M
-			ON A.memberId = M.id
-			LEFT JOIN reactionPoint AS RP
-			ON A.id = RP.relId AND RP.relTypeCode = 'article'
-			WHERE A.id = #{id}
-			GROUP BY A.id;
+			<script>
+				SELECT A.*, M.nickname AS extra__writer
+				FROM article AS A
+				INNER JOIN `member` AS M
+				ON A.memberId = M.id
+				WHERE A.id = #{id}
+				GROUP BY A.id
 			</script>
-			""")
+				""")
 	public Article getForPrintArticle(int id);
 
 	@Delete("DELETE FROM article WHERE id = #{id}")
@@ -121,33 +111,29 @@ public interface ArticleRepository {
 			""")
 	public int getArticlesCount(int boardId, String searchKeywordTypeCode, String searchKeyword);
 
-	//조회수
 	@Update("""
 			UPDATE article
 			SET hitCount = hitCount + 1
 			WHERE id = #{id}
 			""")
 	public int increaseHitCount(int id);
-	
-	
+
 	@Select("""
 			SELECT hitCount
 			FROM article
 			WHERE id = #{id}
 			""")
 	public int getArticleHitCount(int id);
-
+	//extra로 IFNULL인 좋아요, 싫어요를 Update join으로 인해 article테이블로 합류되면서
+	//article 전체를 불러오기만해도 좋아요, 싫어요를 가져올수 있게됨, 그래서 select에서 없앰
+	
 	@Select("""
 			<script>
-			SELECT A.*, M.nickname AS extra__writer,
-			IFNULL(SUM(RP.point), 0) AS extra__sumReactionPoint,
-			IFNULL(SUM(IF(RP.point &gt; 0, RP.point, 0)), 0) AS extra__goodReactionPoint,
-			IFNULL(SUM(IF(RP.point &lt; 0, RP.point, 0)), 0) AS extra__badReactionPoint
+			SELECT A.*,
+			M.nickname AS extra__writer
 			FROM article AS A
 			INNER JOIN `member` AS M
 			ON A.memberId = M.id
-			LEFT JOIN reactionPoint AS RP
-			ON A.id = RP.relId AND RP.relTypeCode = 'article'
 			WHERE 1
 			<if test="boardId != 0">
 				AND A.boardId = #{boardId}
@@ -175,7 +161,5 @@ public interface ArticleRepository {
 			""")
 	public List<Article> getForPrintArticles(int boardId, int limitFrom, int limitTake, String searchKeywordTypeCode,
 			String searchKeyword);
-
-	
 
 }

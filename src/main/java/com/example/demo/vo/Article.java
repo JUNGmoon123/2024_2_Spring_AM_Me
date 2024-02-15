@@ -15,13 +15,15 @@ public class Article {
 	private String title;
 	private String body;
 	private String extra__writer;
-	
+	//update join으로 article테이블에 합류돼서 extra가 아니게됨.
+	private int goodReactionPoint;
+	private int badReactionPoint;
 	//조회수
 	private int hitCount;
 	//좋아요,싫어요,합
-	private String extra__sumReactionPoint;
-	private String extra__goodReactionPoint;
-	private String extra__badReactionPoint;
+//	private String extra__sumReactionPoint;
+//	private String extra__goodReactionPoint;
+//	private String extra__badReactionPoint;
 
 	
 	private boolean userCanModify;
