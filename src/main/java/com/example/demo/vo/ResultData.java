@@ -17,12 +17,6 @@ public class ResultData<DT> {
 	@Getter
 	private String data2Name;	//조회수 정보추가 ID정보
 	
-	//좋아요
-	@Getter
-	private Object data3;
-	@Getter
-	private String data3Name;
-	
 	
 	public static <DT> ResultData<DT> from(String resultCode, String msg) {
 		return from(resultCode, msg, null, null);
@@ -57,9 +51,5 @@ public class ResultData<DT> {
 		this.data2 = data2;
 	}
 
-	public void setData3(String data3Name, Object data3) {
-		this.data3Name = data3Name;
-		this.data3 = data3;
-	}
 	
 }
