@@ -9,9 +9,15 @@
 <script>
 	const params = {};
 	params.id = parseInt('${param.id}');
+	params.memberId = parseInt('${loginedMemberId}');
+	//위의 파람스로 받아오는 Uri값을 보기위함.
+	console.log(params);
+	console.log(params.memberId);
 	
 	var isAlreadyAddGoodRp = ${isAlreadyAddGoodRp};
 	var isAlreadyAddBadRp = ${isAlreadyAddBadRp};
+	
+	
 </script>
 
 <!-- 조회수 -->
@@ -51,9 +57,16 @@
 			return;
 		}
 	}
-
-	//////////////// articleContoller에서 애초에 count 값을 같이 model에 포함시켜서 보내자
+	//밑에 좋아요,싫어요 버튼 누를시 로그인을 했는지 확인 후 로그인 페이지로 보냄, 
+	//currentUri가 원래 돌아가려는 Uri고 이 주소값을 arter뒤에 붙여줘서 보냄
 	function doGoodReaction(articleId) {
+		if(isNaN(params.memberId) == true){
+			if(confirm('로그인 해야해. 로그인 페이지로 가실???')){
+				var currentUri = encodeURIComponent(window.location.href);
+				window.location.href = '../member/login?afterLoginUri=' + currentUri; // 로그인 페이지에 원래 페이지의 uri를 같이 보냄
+			}
+			return;
+		}
 		
 		$.ajax({
 			url: '/usr/reactionPoint/doGoodReaction',
@@ -61,10 +74,6 @@
 			data: {relTypeCode: 'article', relId: articleId},
 			dataType: 'json',
 			success: function(data){
-				//data는 ReactionPointController에서 가져오는데 밑에 부분임.  
-// 		    int goodRP = articleService.getGoodRP(relId);
-// 			int badRP = articleService.getBadRP(relId);
-// 			return ResultData.from("S-1", "좋아요 취소", "goodRP", goodRP, "badRP", badRP);
 				console.log(data);
 				console.log('data.data1Name : ' + data.data1Name);
 				console.log('data.data1 : ' + data.data1);
@@ -105,6 +114,14 @@
 	
 	
 	function doBadReaction(articleId) {
+		
+		if(isNaN(params.memberId) == true){
+			if(confirm('로그인 해야해. 로그인 페이지로 가실???')){
+				var currentUri = encodeURIComponent(window.location.href);
+				window.location.href = '../member/login?afterLoginUri=' + currentUri; // 로그인 페이지에 원래 페이지의 uri를 같이 보냄
+			}
+			return;
+		}
 		
 	 $.ajax({
 			url: '/usr/reactionPoint/doBadReaction',
@@ -219,8 +236,39 @@
 			</c:if>
 		</div>
 	</div>
-</section>
 
+</section>
+	<!-- Comments Form -->
+	<div class="container mx-auto">
+		<div class="form-group">
+			<form method="post" encType="multipart/form-data" action="">
+				<table class="table table-striped" style="text-align: center; border: 1px solid #dddddd">
+					<tr>
+						<td style="border-bottom: none;" valign="middle">
+							<br>
+							<br>
+						</td>
+						<td>
+							
+							<input type="text" style="text-align: center; " class="flex flex-col w-full mx-auto  textarea textarea-bordered textarea-lg w-full max-w-xs" placeholder="상대방을 존중하는 댓글을 남깁시다."
+								name="commentText">
+								
+						</td>
+						<td>
+							<br>
+							<br>
+							<input type="submit" class="btn btn-primary pull" value="댓글 작성">
+						</td>
+					</tr>
+					<tr>
+						<td colspan="3">
+							<input type="file" name="fileName">
+						</td>
+					</tr>
+				</table>
+			</form>
+		</div>
+	</div>
 
 
 <%@ include file="../common/foot.jspf"%>

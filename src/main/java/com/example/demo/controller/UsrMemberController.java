@@ -50,7 +50,7 @@ public class UsrMemberController {
 
 	@RequestMapping("/usr/member/doLogin")
 	@ResponseBody
-	public String doLogin(HttpServletRequest req, String loginId, String loginPw) {
+	public String doLogin(HttpServletRequest req, String loginId, String loginPw, String afterLoginUri) {
 
 		Rq rq = (Rq) req.getAttribute("rq");
 
@@ -76,6 +76,11 @@ public class UsrMemberController {
 		}
 
 		rq.login(member);
+		//jsp쪽 detail에서 좋아요,싫어요 시 로그인판단하고, afteruri는 원래목적인 좋아요, 싫어요를 하기위해
+		//기존 페이지로 다시 보낼려고 가져왔다, Ut.replace로 웹페이지를 이동시킴.
+		if (afterLoginUri.length() > 0) {
+			return Ut.jsReplace("S-1", Ut.f("%s님 환영합니다", member.getNickname()), afterLoginUri);
+		}
 
 		return Ut.jsReplace("S-1", Ut.f("%s님 환영합니다", member.getNickname()), "/");
 	}
