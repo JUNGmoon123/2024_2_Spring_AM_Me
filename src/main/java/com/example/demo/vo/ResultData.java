@@ -31,6 +31,20 @@ public class ResultData<DT> {
 
 		return rd;
 	}
+	//좋아요, 싫어요 데이터를 위해 매개변수 5개까지 늘려줌. 필요한 정보가 많다.
+	public static <DT> ResultData<DT> from(String resultCode, String msg, String data1Name, DT data1, String data2Name,
+			DT data2) {
+		ResultData<DT> rd = new ResultData<DT>();
+		rd.resultCode = resultCode;
+		rd.msg = msg;
+		rd.data1Name = data1Name;
+		rd.data1 = data1;
+		rd.data2Name = data2Name;
+		rd.data2 = data2;
+
+		return rd;
+	}
+
 
 	public static <DT> ResultData<DT> newData(ResultData rd, String dataName, DT newData) {
 		return from(rd.getResultCode(), rd.getMsg(), dataName, newData);

@@ -46,7 +46,9 @@ public class ReactionPointService {
 	public ResultData addGoodReactionPoint(int loginedMemberId, String relTypeCode, int relId) {
 
 		int affectedRow = reactionPointRepository.addGoodReactionPoint(loginedMemberId, relTypeCode, relId);
-
+		
+		System.err.println(affectedRow);
+		
 		if (affectedRow != 1) {
 			return ResultData.from("F-1", "좋아요 실패");
 		}

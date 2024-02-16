@@ -51,14 +51,25 @@
 			return;
 		}
 	}
-	
+
+	//////////////// articleContoller에서 애초에 count 값을 같이 model에 포함시켜서 보내자
 	function doGoodReaction(articleId) {
+		
 		$.ajax({
 			url: '/usr/reactionPoint/doGoodReaction',
 			type: 'POST',
 			data: {relTypeCode: 'article', relId: articleId},
 			dataType: 'json',
 			success: function(data){
+				//data는 ReactionPointController에서 가져오는데 밑에 부분임.  
+// 		    int goodRP = articleService.getGoodRP(relId);
+// 			int badRP = articleService.getBadRP(relId);
+// 			return ResultData.from("S-1", "좋아요 취소", "goodRP", goodRP, "badRP", badRP);
+				console.log(data);
+				console.log('data.data1Name : ' + data.data1Name);
+				console.log('data.data1 : ' + data.data1);
+				console.log('data.data2Name : ' + data.data2Name);
+				console.log('data.data2 : ' + data.data2);
 				if(data.resultCode.startsWith('S-')){
 					var likeButton = $('#likeButton');
 					var likeCount = $('#likeCount');
@@ -67,34 +78,45 @@
 					
 					if(data.resultCode == 'S-1'){
 						likeButton.toggleClass('btn-outline');
-						likeCount.text(parseInt(likeCount.text()) - 1);
+						likeCount.text(data.data1);
 					}else if(data.resultCode == 'S-2'){
 						DislikeButton.toggleClass('btn-outline');
-						DislikeCount.text(parseInt(DislikeCount.text()) - 1);
+						DislikeCount.text(data.data2);
 						likeButton.toggleClass('btn-outline');
-						likeCount.text(parseInt(likeCount.text()) + 1);
+						likeCount.text(data.data1);
 					}else {
 						likeButton.toggleClass('btn-outline');
-						likeCount.text(parseInt(likeCount.text()) + 1);
+						likeCount.text(data.data1);
 					}
+					
 				}else {
 					alert(data.msg);
 				}
+		
 			},
 			error: function(jqXHR,textStatus,errorThrown) {
 				alert('좋아요 오류 발생 : ' + textStatus);
+
 			}
 			
 		});
 	}
 	
+	
+	
 	function doBadReaction(articleId) {
-		$.ajax({
+		
+	 $.ajax({
 			url: '/usr/reactionPoint/doBadReaction',
 			type: 'POST',
 			data: {relTypeCode: 'article', relId: articleId},
 			dataType: 'json',
 			success: function(data){
+				console.log(data);
+				console.log('data.data1Name : ' + data.data1Name);
+				console.log('data.data1 : ' + data.data1);
+				console.log('data.data2Name : ' + data.data2Name);
+				console.log('data.data2 : ' + data.data2);
 				if(data.resultCode.startsWith('S-')){
 					var likeButton = $('#likeButton');
 					var likeCount = $('#likeCount');
@@ -103,16 +125,18 @@
 					
 					if(data.resultCode == 'S-1'){
 						DislikeButton.toggleClass('btn-outline');
-						DislikeButton.text(parseInt(DislikeButton.text()) - 1);
+						DislikeCount.text(data.data2);
 					}else if(data.resultCode == 'S-2'){
 						likeButton.toggleClass('btn-outline');
-						likeCount.text(parseInt(DislikeCount.text()) - 1);
+						likeCount.text(data.data1);
 						DislikeButton.toggleClass('btn-outline');
-						DislikeCount.text(parseInt(DislikeCount.text()) + 1);
+						DislikeCount.text(data.data2);
+		
 					}else {
 						DislikeButton.toggleClass('btn-outline');
-						DislikeCount.text(parseInt(DislikeCount.text()) + 1);
+						DislikeCount.text(data.data2);
 					}
+			
 				}else {
 					alert(data.msg);
 				}
@@ -136,7 +160,7 @@
 			<tbody>
 				<tr>
 					<th>번호</th>
-					<td>${article.id }</td>
+					<td>${article.id }${goodRP}${badRP}</td>
 				</tr>
 				<tr>
 					<th>작성날짜</th>
@@ -151,12 +175,12 @@
 					<td>${article.extra__writer }</td>
 				</tr>
 				<tr>
-					<th class="reaction">좋아요</th>
-					<td>${article.goodReactionPoint }</td>
+					<th>좋아요</th>
+					<td id="likeCount">${article.goodReactionPoint }</td>
 				</tr>
 				<tr>
-					<th class="reaction">싫어요</th>
-					<td>${article.badReactionPoint }</td>
+					<th>싫어요</th>
+					<td id="DislikeCount">${article.badReactionPoint }</td>
 				</tr>
 				<tr>
 					<th>추천 ${usersReaction }</th>
